@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+  <body>
+    <h2>Protected Environment</h2>
+
+    <form id="form">
+      <input type="password" placeholder="Enter PIN" autofocus />
+      <button>Unlock</button>
+    </form>
+
+    <script>
+      document.getElementById('form').onsubmit = async (e) => {
+        e.preventDefault();
+        const pin = e.target.querySelector('input').value;
+
+        const res = await fetch('/__unlock', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pin }),
+        });
+
+        if (res.ok) location.href = '/';
+        else alert('Wrong PIN');
+      };
+    </script>
+  </body>
+</html>
