@@ -3,7 +3,7 @@ interface Env {
 }
 
 export default {
-  async fetch(request: Request, env: Env, ctx: ExecutionContext) {
+  async fetch(request: Request, env: Env) {
     const url = new URL(request.url);
 
     // Allow unlock page, unlock API, and assets
@@ -12,7 +12,7 @@ export default {
       url.pathname === "/__unlock" ||
       url.pathname.startsWith("/assets")
     ) {
-      return handlePublic(request, env, ctx);
+      return handlePublic(request, env);
     }
 
     // Check auth cookie
@@ -24,11 +24,11 @@ export default {
       );
     }
 
-    return handlePublic(request, env, ctx);
+    return handlePublic(request, env);
   },
 };
 
-async function handlePublic(request: Request, env: Env, ctx: ExecutionContext) {
+async function handlePublic(request: Request, env: Env) {
   const url = new URL(request.url);
 
   // Handle PIN submission
